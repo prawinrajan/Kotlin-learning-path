@@ -1,5 +1,6 @@
 package com.example.composetutorial
 
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
@@ -39,7 +41,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposeTutorialTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    shape = MaterialTheme.shapes.medium,
+                    color = MaterialTheme.colorScheme.surface
+                ) {
                     MessageCard(
                         Message("Prawin", "Learning Kotlin"),
                         modifier = Modifier.padding(4.dp)
@@ -69,17 +75,24 @@ fun MessageCard(msg: Message, modifier: Modifier = Modifier) {
         Column {
             Text(
                 text = msg.author,
-                modifier = modifier
+                modifier = modifier,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary
             )
-            Text(
-                text = msg.body,
-                modifier = modifier
-            )
+            Surface(shape = MaterialTheme.shapes.medium) {
+                Text(
+                    text = msg.body,
+                    modifier = modifier.padding(all = 4.dp),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, name = "Light mode")
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Night mode")
 @Composable
 fun MessageCardPreview() {
     ComposeTutorialTheme {
@@ -88,3 +101,4 @@ fun MessageCardPreview() {
         MessageCard(Message("Prawin", "Learning Kotlin"))
     }
 }
+
